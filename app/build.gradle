@@ -1,0 +1,62 @@
+apply plugin: "com.android.application"
+apply plugin: "kotlin-kapt"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "me.sethlopez.giphysample"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            buildConfigField "String", "GIPHY_API_KEY", "\"<GIPHY-API-KEY>\""
+        }
+        release {
+            initWith debug
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+dependencies {
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // androidx
+    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation "androidx.paging:paging-runtime:2.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    // dagger
+    // using old 2.16 version due to a bug in jetifier, see: https://issuetracker.google.com/issues/115738511
+    kapt "com.google.dagger:dagger-compiler:2.16"
+    implementation "com.google.dagger:dagger:2.16"
+    kapt "com.google.dagger:dagger-android-processor:2.16"
+    implementation "com.google.dagger:dagger-android:2.16"
+    implementation "com.google.dagger:dagger-android-support:2.16"
+
+    // giphy
+    implementation("com.giphy.sdk:core:1.0.2@aar") { transitive = true }
+
+    // glide
+    kapt "com.github.bumptech.glide:compiler:4.8.0"
+    implementation "com.github.bumptech.glide:glide:4.8.0"
+
+    // default testing libs
+    testImplementation "junit:junit:4.12"
+    androidTestImplementation "androidx.test:runner:1.1.0-beta01"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-beta01"
+}
